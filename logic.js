@@ -36,7 +36,7 @@ function convert(input) {
 		VoxelZ: VoxelZ,
 		SolarSystemIndex: system_idx,
 	}
-	const output = document.getElementById('out');
+	const output = document.getElementById('output');
 	output.innerHTML = '';
 	for (const coord in coords) {
 		const div = document.createElement('div');
