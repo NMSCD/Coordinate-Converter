@@ -1,7 +1,7 @@
 function convert(input) {
 	if (input.length < 12) return;
 	const coordinates = (() => {
-		if (input.length == 12) {
+		if (input.trim().length == 12) {
 			return convertGlyphs(input);
 		} else {
 			return convertCoords(input);

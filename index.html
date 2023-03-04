@@ -7,6 +7,12 @@
 	<title>Coordinate Converter</title>
 	<link rel="stylesheet" href="./style.css">
 	<script src="./logic.js"></script>
+	<script>
+		window.onload = () => {
+			const inputElement = document.getElementById('input');
+			convert(inputElement.value);
+		}
+	</script>
 </head>
 
 <body>
@@ -15,7 +21,8 @@
 		<h1 class="title is-3">Coordinate Converter</h1>
 		<section id="input">
 			<h2 class="title is-5">Input</h2>
-			<input class="input" type="text" maxlength="19" placeholder="Coordinates or Glyphs" oninput="convert(this.value)">
+			<input id="input" class="input" type="text" maxlength="19" placeholder="Coordinates or Glyphs"
+				oninput="convert(this.value)">
 		</section>
 		<section id="output">
 			<h2 class="title is-5">Output</h2>
