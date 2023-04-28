@@ -38,9 +38,11 @@ function convert(input) {
 	}
 	const output = document.getElementById('output');
 	output.innerHTML = '';
-	for (const coord in coords) {
+	const coordKeys = Object.keys(coords);
+	for (let i = 0; i < coordKeys.length; i++) {
+		const coord = coordKeys[i];
 		const div = document.createElement('div');
-		div.innerText = `"${coord}": ${coords[coord]},`;
+		div.innerText = `"${coord}": ${coords[coord]}` + (i === coordKeys.length - 1 ? '' : ',');
 
 		output.appendChild(div);
 	}
