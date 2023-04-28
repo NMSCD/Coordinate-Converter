@@ -38,12 +38,14 @@ function convert(input) {
 	}
 	const output = document.getElementById('output');
 	output.innerHTML = '';
+	const outputCodeArray = new Array;
 	for (const coord in coords) {
 		const div = document.createElement('div');
-		div.innerText = `"${coord}": ${coords[coord]},`;
+		div.innerText = `"${coord}": ${coords[coord]}`;
+		outputCodeArray.push(div.outerHTML);
 
-		output.appendChild(div);
 	}
+	output.innerHTML = outputCodeArray.join(',');
 }
 
 function convertGlyphs(glyphs) {
