@@ -1,4 +1,15 @@
-function convert(input) {
+import '@picocss/pico';
+import './style.css';
+import { globalElements } from './elementLogic/elementStore';
+import './elementLogic/elementFunctions';
+import './elementFunctionsFrontend';
+import './elementStoreFrontend';
+
+interface Indexable {
+	[key: string]: number;
+}
+
+export function convert(input: string): void {
 	if (input.length < 12) return;
 	const coordinates = (() => {
 		if (input.trim().length == 12) {
@@ -6,10 +17,10 @@ function convert(input) {
 		} else {
 			return convertCoords(input);
 		}
-	})().map(coordinate => parseInt(coordinate, 16));
+	})().map((coordinate: string) => parseInt(coordinate, 16));
 
 	const x_glyphs = coordinates[0];
-	const y_glyphs = coordinates[1]
+	const y_glyphs = coordinates[1];
 	const z_glyphs = coordinates[2];
 	const system_idx = coordinates[3];
 
@@ -31,24 +42,23 @@ function convert(input) {
 	}
 
 	const coords = {
-		VoxelX: VoxelX,
-		VoxelY: VoxelY,
-		VoxelZ: VoxelZ,
+		VoxelX,
+		VoxelY,
+		VoxelZ,
 		SolarSystemIndex: system_idx,
 	}
-	const output = document.getElementById('output');
+	const output = globalElements.output!.output as HTMLElement;
 	output.innerHTML = '';
 	const coordKeys = Object.keys(coords);
-	for (let i = 0; i < coordKeys.length; i++) {
-		const coord = coordKeys[i];
-		const div = document.createElement('div');
-		div.innerText = `"${coord}": ${coords[coord]}` + (i === coordKeys.length - 1 ? '' : ',');
+	for (const coord of coordKeys) {
+		const span = document.createElement('span');
+		span.innerText = `"${coord}": ${(coords as Indexable)[coord]}` + ',';
 
-		output.appendChild(div);
+		output.appendChild(span);
 	}
 }
 
-function convertGlyphs(glyphs) {
+function convertGlyphs(glyphs: string): string[] {
 	const x_glyphs = glyphs.substring(9, 12);
 	const y_glyphs = glyphs.substring(4, 6);
 	const z_glyphs = glyphs.substring(6, 9);
@@ -57,12 +67,12 @@ function convertGlyphs(glyphs) {
 	return [x_glyphs, y_glyphs, z_glyphs, system_idx]
 }
 
-function convertCoords(coords) {
+function convertCoords(coords: string): string[] {
 	const glyphs = coords2Glyphs(coords);
 	return convertGlyphs(glyphs);
 
-	function coords2Glyphs(coords) {
-		if (coords.length != 19) return;
+	function coords2Glyphs(coords: string): string {
+		if (coords.length != 19) return '';
 
 		const X_Z_POS_SHIFT = 2049;
 		const X_Z_NEG_SHIFT = 2047;
@@ -101,4 +111,14 @@ function convertCoords(coords) {
 		glyphs[4] = portal_x.toString(16).toUpperCase().padStart(3, '0');
 		return glyphs.join('');
 	}
+}
+
+export function copy(buttonElement: HTMLButtonElement): void {
+	const copyText = (globalElements.output!.output as HTMLElement).innerText;
+	navigator.clipboard.writeText(copyText);
+	const orgBtnText = buttonElement.innerText;
+	buttonElement.innerText = 'Copied!'
+	setTimeout(() => {
+		buttonElement.innerText = orgBtnText;
+	}, 1500);
 }
