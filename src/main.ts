@@ -12,7 +12,7 @@ interface Indexable {
 export function convert(input: string): void {
 	if (input.length < 12) return;
 	const coordinates = (() => {
-		if (input.trim().length == 12) {
+		if (input.trim().length === 12) {
 			return convertGlyphs(input);
 		} else {
 			return convertCoords(input);
@@ -72,7 +72,7 @@ function convertCoords(coords: string): string[] {
 	return convertGlyphs(glyphs);
 
 	function coords2Glyphs(coords: string): string {
-		if (coords.length != 19) return '';
+		if (coords.length !== 19) return '';
 
 		const X_Z_POS_SHIFT = 2049;
 		const X_Z_NEG_SHIFT = 2047;
@@ -103,7 +103,7 @@ function convertCoords(coords: string): string[] {
 			portal_y = y_coords - Y_NEG_SHIFT;
 		}
 
-		const glyphs = new Array(5);
+		const glyphs = [];
 		glyphs[0] = '0';
 		glyphs[1] = system_idx.toString(16).toUpperCase().padStart(3, '0');
 		glyphs[2] = portal_y.toString(16).toUpperCase().padStart(2, '0');
